@@ -32,8 +32,9 @@ func _physics_process(delta):
 	
 	if grappleTarget:
 		isIdle = false
-		if (head.global_position - grappleTarget).length() > 30:
-			chainVelocity = (grappleTarget - self.global_position).normalized() * chainSpeed
+		if (head.global_position - grappleTarget).length() > 10:
+			chainVelocity = (grappleTarget - (self.global_position)).normalized() * chainSpeed
+			#chainVelocity = (grappleTarget - grappleOrigin).normalized() * chainSpeed
 			var collisionPos = head.move_and_collide(chainVelocity * delta)
 			if collisionPos:
 				print(collisionPos.position)
