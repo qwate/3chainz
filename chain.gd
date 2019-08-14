@@ -1,5 +1,7 @@
 extends KinematicBody2D
 
+signal hook_attached
+
 const chainSpeed = 400
 var head
 var chainLinks
@@ -8,19 +10,23 @@ var grappleTarget = Vector2()
 var grappleOrigin = Vector2()
 var isIdle
 var inCombo
+var inPull
+var player
 
 
 func _ready():
 	isIdle = true
 	inCombo = false
+	inPull = false
 	head = $chainHead
 	chainLinks = $chainLinks
-	
-	
+	player = get_node('../body')
+
 func _physics_process(delta):
 	#Getting inputs relevant to the chain and its hook. Starting with actions while idle (not in 
 	#the process of grappling or attacking)
 	if isIdle:
+		position = player.position + Vector2(16,16)
 		grappleTarget = null
 		head.position = Vector2.ZERO
 		if Input.is_action_just_pressed("right_click"):
@@ -28,8 +34,8 @@ func _physics_process(delta):
 			grappleOrigin = self.global_position
 		if Input.is_action_just_pressed("left_click"):
 			attack(head.getWeapon())
-		
-	
+		clearChains()
+
 	if grappleTarget:
 		isIdle = false
 		if (head.global_position - grappleTarget).length() > 10:
@@ -39,19 +45,24 @@ func _physics_process(delta):
 			if collisionPos:
 				print(collisionPos.position)
 				grappleTarget = collisionPos.position
-			drawChains(head.position, Vector2.ZERO)
+			drawChains(head.position, (player.global_position - position) + Vector2(16,16))
 		else:
-			grappleTarget = null
-			isIdle = true
+			inPull = true
 			chainVelocity = Vector2.ZERO
 			clearChains()
-			
-			
 		
+		if Input.is_action_just_pressed("ui_down"):
+			grappleTarget = null
+			isIdle = true
+			clearChains()
 			
+	if inPull:
+		emit_signal("hook_attached", head.global_position)
+		inPull = false
+
 func drawChains(headEnd, playerEnd):
 	if chainLinks.get_point_count() < 2:
-		chainLinks.clear_points()
+		clearChains()
 		chainLinks.add_point(headEnd)
 		chainLinks.add_point(playerEnd)
 	else:
@@ -62,11 +73,9 @@ func clearChains():
 	
 func attack(weapon):
 	pass
-	
-		
-	
-	
-	
+
+func _on_body_flightDone():
+	isIdle = true
 
 
 
@@ -142,3 +151,6 @@ func attack(weapon):
 #
 #func removeLine():
 #	$Line2D.clear_points()
+
+
+
