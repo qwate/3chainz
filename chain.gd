@@ -13,6 +13,10 @@ var isIdle
 var inCombo
 var inPull
 var player
+var comboTimer = Vector2()
+var attackDirection = Vector2()
+var attackVelocity = Vector2()
+var collisionPos = Vector2()
 
 
 func _ready():
@@ -39,18 +43,22 @@ func _physics_process(delta):
 
 	if grappleTarget:
 		isIdle = false
-		if (head.global_position - grappleTarget).length() > 10:
+		if (head.global_position - grappleTarget).length() > 5:
 			chainVelocity = (grappleTarget - (self.global_position)).normalized() * chainSpeed
 			#chainVelocity = (grappleTarget - grappleOrigin).normalized() * chainSpeed
-			var collisionPos = head.move_and_collide(chainVelocity * delta)
+			collisionPos = head.move_and_collide(chainVelocity * delta)
 			if collisionPos:
-				print(collisionPos.position)
+				#print(collisionPos.position)
 				grappleTarget = collisionPos.position
 			drawChains(head.position, (player.global_position - position) + Vector2(16,16))
 		else:
-			inPull = true
-			chainVelocity = Vector2.ZERO
-			clearChains()
+			if collisionPos:
+				inPull = true
+				chainVelocity = Vector2.ZERO
+				clearChains()
+			else:
+				isIdle = true
+				
 		
 		if Input.is_action_just_pressed("ui_down"):
 			grappleTarget = null
@@ -62,6 +70,17 @@ func _physics_process(delta):
 		inPull = false
 
 	if inCombo:
+		position = player.position + Vector2(16,16)
+		comboTimer.x += delta
+		if comboTimer.y - comboTimer.x <= 0:
+			inCombo = false
+			isIdle = true
+		else:
+			attackVelocity = attackDirection.normalized() * (chainSpeed * 1.5)
+			head.move_and_slide(attackVelocity)
+			drawChains(head.position, self.global_position - position)
+			#print(attackVelocity)
+
 
 func drawChains(headEnd, playerEnd):
 	if chainLinks.get_point_count() < 2:
@@ -78,11 +97,10 @@ func clearChains():
 func attack(weapon, comboIndex):
 	isIdle = false
 	inCombo = true
-	#todo:
-	startTimer(weapon.swingTime)
+	attackDirection = get_global_mouse_position() - self.global_position
+	comboTimer = Vector2(0.0, weapon.swingTime) 
 
-func startTimer(time):
-	pass
+
 
 func _on_body_flightDone():
 	isIdle = true
