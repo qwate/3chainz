@@ -4,6 +4,7 @@ signal hook_attached
 
 const chainSpeed = 400
 const attackSpeed = 1000
+
 var head
 var chainLinks
 var chainVelocity = Vector2()
