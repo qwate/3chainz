@@ -45,6 +45,7 @@ func _physics_process(delta):
 		if (position - targetLocal).length() > 20:
 			velocity = (targetLocal - position).normalized() * grappleSpeed
 		else:
+			velocity = velocity / grappleSpeed
 			inFlight = false
 			position = targetLocal
 			emit_signal("flightDone")

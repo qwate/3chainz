@@ -3,6 +3,7 @@ extends KinematicBody2D
 signal hook_attached
 
 const chainSpeed = 400
+const attackSpeed = 1000
 var head
 var chainLinks
 var chainVelocity = Vector2()
@@ -33,7 +34,7 @@ func _physics_process(delta):
 			grappleTarget = get_global_mouse_position()
 			grappleOrigin = self.global_position
 		if Input.is_action_just_pressed("left_click"):
-			attack(head.getWeapon())
+			attack(head.getWeapon(), 0)
 		clearChains()
 
 	if grappleTarget:
@@ -60,6 +61,8 @@ func _physics_process(delta):
 		emit_signal("hook_attached", head.global_position)
 		inPull = false
 
+	if inCombo:
+
 func drawChains(headEnd, playerEnd):
 	if chainLinks.get_point_count() < 2:
 		clearChains()
@@ -68,10 +71,17 @@ func drawChains(headEnd, playerEnd):
 	else:
 		chainLinks.set_point_position(0, headEnd)
 		chainLinks.set_point_position(1, playerEnd)
+		
 func clearChains():
 	chainLinks.clear_points()
 	
-func attack(weapon):
+func attack(weapon, comboIndex):
+	isIdle = false
+	inCombo = true
+	#todo:
+	startTimer(weapon.swingTime)
+
+func startTimer(time):
 	pass
 
 func _on_body_flightDone():
