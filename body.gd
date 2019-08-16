@@ -84,3 +84,7 @@ func _on_chain_hook_attached(hook_pos):
 	targetLocal = hook_pos
 	inFlight = true
 	velocity = (targetLocal - position).normalized() * grappleSpeed
+
+
+func _on_mage_playerHit(damage):
+	print("Ow! I'm hurt! Took ", damage, " damage!")
