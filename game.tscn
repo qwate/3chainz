@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://tileset/Magic-Cliffs-Environment/PNG/tileset.png" type="Texture" id=1]
 [ext_resource path="res://night.jpg" type="Texture" id=2]
@@ -7,6 +7,9 @@
 [ext_resource path="res://chain.gd" type="Script" id=5]
 [ext_resource path="res://chainCompletedHoriz.png" type="Texture" id=6]
 [ext_resource path="res://chainHead.gd" type="Script" id=7]
+[ext_resource path="res://mage.gd" type="Script" id=8]
+[ext_resource path="res://player_mage_sheet.png" type="Texture" id=9]
+
 
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 8.83334, 35, 103, 31.6667, 96, 64, 64, 96, 19.6667, 61.25 )
@@ -131,6 +134,26 @@ height = 4.48471
 [sub_resource type="CircleShape2D" id=9]
 radius = 3.54547
 
+[sub_resource type="Animation" id=10]
+resource_name = "mageWalk"
+length = 0.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("../mage/mageSheet:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 12, 13, 14 ]
+}
+
+[sub_resource type="CapsuleShape2D" id=11]
+radius = 13.8528
+
 [node name="game" type="Node2D"]
 
 [node name="map" type="Node2D" parent="."]
@@ -138,8 +161,8 @@ radius = 3.54547
 [node name="platforms" type="TileMap" parent="map"]
 tile_set = SubResource( 7 )
 cell_size = Vector2( 32, 32 )
-collision_layer = 3
-collision_mask = 3
+collision_layer = 19
+collision_mask = 19
 format = 1
 tile_data = PoolIntArray( 0, 4, 0, 1, 4, 0, 2, 4, 0, 3, 4, 0, 4, 4, 0, 5, 4, 0, 6, 4, 0, 7, 4, 0, 8, 4, 0, 9, 4, 0, 10, 4, 0, 11, 4, 0, 12, 4, 0, 13, 4, 0, 14, 4, 0, 15, 4, 0, 16, 4, 0, 17, 4, 0, 18, 4, 0, 19, 4, 0, 20, 4, 0, 21, 4, 0, 22, 4, 0, 23, 4, 0, 24, 4, 0, 25, 4, 0, 26, 4, 0, 27, 4, 0, 28, 4, 0, 29, 4, 0, 30, 4, 0, 31, 4, 0, 65536, 4, 0, 65567, 4, 0, 131072, 4, 0, 131103, 4, 0, 196608, 4, 0, 196639, 4, 0, 262144, 4, 0, 262148, 0, 0, 262165, 0, 0, 262175, 4, 0, 327680, 4, 0, 327693, 0, 0, 327711, 4, 0, 393216, 4, 0, 393247, 4, 0, 458752, 4, 0, 458778, 0, 0, 458783, 4, 0, 524288, 4, 0, 524297, 0, 0, 524319, 4, 0, 589824, 4, 0, 589846, 0, 0, 589855, 4, 0, 655360, 4, 0, 655390, 2, 0, 655391, 4, 0, 720896, 4, 0, 720914, 0, 0, 720925, 2, 0, 720927, 4, 0, 786432, 4, 0, 786459, 2, 0, 786463, 4, 0, 851968, 4, 0, 851970, 1, 0, 851971, 2, 0, 851972, 3, 0, 851973, 3, 0, 851974, 3, 0, 851975, 3, 0, 851976, 3, 0, 851977, 3, 0, 851978, 3, 0, 851979, 5, 0, 851994, 2, 0, 851996, 2, 0, 851998, 2, 0, 851999, 4, 0, 917504, 4, 0, 917519, 0, 0, 917529, 1, 0, 917533, 2, 0, 917534, 2, 0, 917535, 4, 0, 983040, 4, 0, 983066, 2, 0, 983067, 2, 0, 983068, 2, 0, 983071, 4, 0, 1048576, 4, 0, 1048607, 4, 0, 1114112, 4, 0, 1114143, 4, 0, 1179648, 4, 0, 1179649, 4, 0, 1179650, 4, 0, 1179651, 4, 0, 1179652, 4, 0, 1179653, 4, 0, 1179654, 4, 0, 1179655, 4, 0, 1179656, 4, 0, 1179657, 4, 0, 1179658, 4, 0, 1179659, 4, 0, 1179660, 4, 0, 1179661, 4, 0, 1179662, 4, 0, 1179663, 4, 0, 1179664, 4, 0, 1179665, 4, 0, 1179666, 4, 0, 1179667, 4, 0, 1179668, 4, 0, 1179669, 4, 0, 1179670, 4, 0, 1179671, 4, 0, 1179672, 4, 0, 1179673, 4, 0, 1179674, 4, 0, 1179675, 4, 0, 1179676, 4, 0, 1179677, 4, 0, 1179678, 4, 0, 1179679, 4, 0 )
 
@@ -153,6 +176,9 @@ texture = ExtResource( 2 )
 
 [node name="body" type="KinematicBody2D" parent="character"]
 position = Vector2( 160, 416 )
+collision_layer = 17
+collision_mask = 17
+
 script = ExtResource( 3 )
 
 [node name="sprite" type="Sprite" parent="character/body"]
@@ -167,11 +193,9 @@ shape = SubResource( 8 )
 [node name="camera" type="Camera2D" parent="character/body"]
 current = true
 zoom = Vector2( 0.5, 0.5 )
-smoothing_enabled = true
-drag_margin_left = 0.0
-drag_margin_top = 0.0
-drag_margin_right = 0.0
-drag_margin_bottom = 0.0
+
+smoothing_speed = 10.0
+
 
 [node name="chain" type="KinematicBody2D" parent="character"]
 position = Vector2( 176, 432 )
@@ -196,5 +220,31 @@ texture = ExtResource( 4 )
 
 [node name="headCollision" type="CollisionShape2D" parent="character/chain/chainHead"]
 shape = SubResource( 9 )
+
+[node name="enemies" type="Node2D" parent="."]
+
+[node name="mage" type="KinematicBody2D" parent="enemies"]
+position = Vector2( 729.411, 126.444 )
+script = ExtResource( 8 )
+
+[node name="mageSheet" type="Sprite" parent="enemies/mage"]
+texture = ExtResource( 9 )
+vframes = 8
+hframes = 10
+frame = 13
+
+[node name="mageAnimation" type="AnimationPlayer" parent="enemies/mage"]
+anims/mageWalk = SubResource( 10 )
+
+[node name="mageHitbox" type="CollisionShape2D" parent="enemies/mage"]
+position = Vector2( 0, 4.16962 )
+shape = SubResource( 11 )
+
+[node name="attackStuff" type="Node2D" parent="enemies/mage"]
+modulate = Color( 0.168627, 0.976471, 0, 1 )
+scale = Vector2( 0.1, 0.1 )
+
+[node name="guardian" type="KinematicBody2D" parent="enemies"]
 [connection signal="flightDone" from="character/body" to="character/chain" method="_on_body_flightDone"]
 [connection signal="hook_attached" from="character/chain" to="character/body" method="_on_chain_hook_attached"]
+[connection signal="playerHit" from="enemies/mage" to="character/body" method="_on_mage_playerHit"]
