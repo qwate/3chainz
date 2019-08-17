@@ -17,5 +17,7 @@ func _physics_process(delta):
 			print("collided with player")
 			emit_signal("hitPlayer", 8)
 			queue_free()
-		else: queue_free()
+		else: 
+			print(collision.collider)
+			queue_free()
 			

@@ -105,4 +105,3 @@ func _on_body_flightDone():
 	grappleTarget = null
 	inPull = false
 	hookAttached = false
-
