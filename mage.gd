@@ -11,6 +11,7 @@ var playerLoc = Vector2()
 var attackTimer = Vector2()
 var fireBall = preload("res://fireBall.tscn")
 var sprayTimer
+var burstData
 
 func _ready():
 	player = get_node("../../character/body")
@@ -24,6 +25,15 @@ func _ready():
 		"sinceLast": 0.0,
 		"lastDirection": Vector2(-1, -0)
 	}
+#	burstData = {
+#		"pulses": 4,
+#		"perPulse": 2,
+#		"interpulseDelay": .03,
+#		"pulseDelay": .3,
+#		"interpulseTimer": 0.0,
+#		"pulseTimer": 0.0,
+#		"curPulse" : 0
+#	}
 	
 func _physics_process(delta):
 	playerLoc = player.global_position
@@ -64,7 +74,6 @@ func _physics_process(delta):
 				sprayTimer["lastDirection"] = Vector2(-1, 0)
 				sprayTimer["overallTime"] += 0.0
 				curAttack = "MAIN"
-				
 
 func mainAttack():
 	pass
