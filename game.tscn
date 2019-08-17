@@ -10,7 +10,6 @@
 [ext_resource path="res://mage.gd" type="Script" id=8]
 [ext_resource path="res://player_mage_sheet.png" type="Texture" id=9]
 
-
 [sub_resource type="ConvexPolygonShape2D" id=1]
 points = PoolVector2Array( 8.83334, 35, 103, 31.6667, 96, 64, 64, 96, 19.6667, 61.25 )
 
@@ -178,7 +177,6 @@ texture = ExtResource( 2 )
 position = Vector2( 160, 416 )
 collision_layer = 17
 collision_mask = 17
-
 script = ExtResource( 3 )
 
 [node name="sprite" type="Sprite" parent="character/body"]
@@ -193,9 +191,7 @@ shape = SubResource( 8 )
 [node name="camera" type="Camera2D" parent="character/body"]
 current = true
 zoom = Vector2( 0.5, 0.5 )
-
 smoothing_speed = 10.0
-
 
 [node name="chain" type="KinematicBody2D" parent="character"]
 position = Vector2( 176, 432 )
@@ -224,8 +220,11 @@ shape = SubResource( 9 )
 [node name="enemies" type="Node2D" parent="."]
 
 [node name="mage" type="KinematicBody2D" parent="enemies"]
-position = Vector2( 729.411, 126.444 )
+position = Vector2( 172.531, 329.469 )
 script = ExtResource( 8 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="mageSheet" type="Sprite" parent="enemies/mage"]
 texture = ExtResource( 9 )

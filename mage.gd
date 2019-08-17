@@ -10,16 +10,20 @@ var timer
 var playerLoc = Vector2()
 var attackTimer = Vector2()
 var fireBall = preload("res://fireBall.tscn")
-
+var sprayTimer
 
 func _ready():
 	player = get_node("../../character/body")
-	#playerID = get_node("../../character/body/collision").get_rid().get_id()
-	#playerID = 
-	#print(playerID)
-	curAttack = mainAttack()
+	curAttack = "SPELLSPRAY"
 	isAlive = true
 	timer = 0.0
+	sprayTimer = {
+		"attackDuration": 7.0,
+		"fireDelay": .04,
+		"overallTime": 0.0,
+		"sinceLast": 0.0,
+		"lastDirection": Vector2(-1, -0)
+	}
 	
 func _physics_process(delta):
 	playerLoc = player.global_position
@@ -39,9 +43,31 @@ func _physics_process(delta):
 					timer = 0
 			else:
 				timer += delta
+		
+		elif curAttack == "SPELLSPRAY":
+			if sprayTimer["overallTime"] <= sprayTimer["attackDuration"]:
+				if sprayTimer["sinceLast"] >= sprayTimer["fireDelay"]:
+					var node = fireBall.instance()
+					node.connect("hitPlayer", self, "_on_fireBall_hit_player")
+					node.ballDirection = sprayTimer["lastDirection"].rotated(delta * 8)
+					node.ballSpeed = 50
+					add_child(node)
+					sprayTimer["sinceLast"] = 0.0
+					sprayTimer["lastDirection"] = node.ballDirection
+					sprayTimer["overallTime"] += delta
+				else:
+					sprayTimer["sinceLast"] += delta
+					sprayTimer["lastDirection"] = sprayTimer["lastDirection"].rotated(delta * 8)
+					sprayTimer["overallTime"] += delta
+			else:
+				sprayTimer["sinceLast"] = 0.0
+				sprayTimer["lastDirection"] = Vector2(-1, 0)
+				sprayTimer["overallTime"] += 0.0
+				curAttack = "MAIN"
+				
 
 func mainAttack():
-	return "MAIN"
+	pass
 
 func spellSpray():
 	pass
