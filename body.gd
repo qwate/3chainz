@@ -111,7 +111,17 @@ func _on_chain_hook_attached(hook_pos):
 	inFlight = true
 	velocity = (targetLocal - position).normalized() * grappleSpeed
 
-func _on_mage_playerHit(damage):
+#func _on_mage_playerHit(damage):
+#	if not inIFrames:
+#		print("Ow! I'm hurt! Took ", damage, " damage!")
+#		stunned = true
+#		stunTimer = 0.0
+#		inIFrames = true
+#		iFrameTimer = 0.0
+#		emit_signal("flightDone")
+#	else:
+#		pass
+func hit(damage):
 	if not inIFrames:
 		print("Ow! I'm hurt! Took ", damage, " damage!")
 		stunned = true

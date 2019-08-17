@@ -12,8 +12,11 @@ var attackTimer = Vector2()
 var fireBall = preload("res://fireBall.tscn")
 var sprayTimer
 var burstData
+var mainAttackArea
+var mainAttackSpeed
 
 func _ready():
+	position = Vector2(512, 93)
 	player = get_node("../../character/body")
 	curAttack = "SPELLSPRAY"
 	isAlive = true
@@ -25,6 +28,14 @@ func _ready():
 		"sinceLast": 0.0,
 		"lastDirection": Vector2(-1, -0)
 	}
+#	mainAttackArea = RectangleShape2D.new()
+#	#mainAttackArea.position = Vector2(0,0)
+#	mainAttackArea.extents = Vector2(480, 272)
+#	mainAttackSpeed = 200
+#	var shape_owner = create_shape_owner(self)
+#	shape_owner_add_shape(shape_owner, mainAttackArea)
+	#mainAttackArea.position = Vector2(0, 0)
+	
 #	burstData = {
 #		"pulses": 4,
 #		"perPulse": 2,
@@ -46,7 +57,7 @@ func _physics_process(delta):
 					pass
 				else:
 					var node = fireBall.instance()
-					node.connect("hitPlayer", self, "_on_fireBall_hit_player")
+					#node.connect("hitPlayer", self, "_on_fireBall_hit_player")
 					node.ballDirection = position.direction_to(player.position + Vector2(16, 16)).normalized()
 					node.ballSpeed = 350
 					add_child(node)
@@ -58,7 +69,7 @@ func _physics_process(delta):
 			if sprayTimer["overallTime"] <= sprayTimer["attackDuration"]:
 				if sprayTimer["sinceLast"] >= sprayTimer["fireDelay"]:
 					var node = fireBall.instance()
-					node.connect("hitPlayer", self, "_on_fireBall_hit_player")
+					#node.connect("hitPlayer", self, "_on_fireBall_hit_player")
 					node.ballDirection = sprayTimer["lastDirection"].rotated(delta * 8)
 					node.ballSpeed = 50
 					add_child(node)
@@ -86,6 +97,6 @@ func lazer():
 
 func burst():
 	pass
-
+	
 func _on_fireBall_hit_player(damage):
 	emit_signal("playerHit", damage)
