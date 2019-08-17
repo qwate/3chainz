@@ -171,6 +171,12 @@ scale = Vector2( 0.765625, 0.8 )
 z_index = -2
 texture = ExtResource( 2 )
 
+[node name="Area2D" type="Area2D" parent="map"]
+position = Vector2( 30, 0 )
+scale = Vector2( 2, 2 )
+collision_layer = 0
+collision_mask = 0
+
 [node name="character" type="Node2D" parent="."]
 
 [node name="body" type="KinematicBody2D" parent="character"]
@@ -190,7 +196,6 @@ shape = SubResource( 8 )
 
 [node name="camera" type="Camera2D" parent="character/body"]
 current = true
-zoom = Vector2( 0.5, 0.5 )
 smoothing_speed = 10.0
 
 [node name="chain" type="KinematicBody2D" parent="character"]
