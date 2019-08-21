@@ -1,7 +1,4 @@
 # 3chainz
-3chainz. A game for the Godot Wild Jam #12. Happy codeversary! Made with Godot 3.1.1
-
-
 
 Windows binary is located in 3chainz/bin. Snag 3chainz.exe and 3chainz.pck and ensure they are in the same directory. Execute 3chainz.exe.
 
