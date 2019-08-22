@@ -107,7 +107,7 @@ func _on_chain_hook_attached(hook_pos):
 	#I should learn how to debug better
 	#print("hook_pos: ", hook_pos)
 	#print("global_pos: ", global_position)
-	targetLocal = hook_pos
+	targetLocal = hook_pos - Vector2(16, 16)
 	inFlight = true
 	velocity = (targetLocal - position).normalized() * grappleSpeed
 
